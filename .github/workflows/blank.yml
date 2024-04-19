@@ -52,5 +52,5 @@ jobs:
             prerelease: false
             draft: false
             files: |
-              Ryujinx-x86_64.AppImage
+              Zenity-x86_64.AppImage
             repo_token: ${{ secrets.GITHUB_TOKEN }}
