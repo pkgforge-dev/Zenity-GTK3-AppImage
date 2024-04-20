@@ -1,3 +1,6 @@
+# WIP (AKA DOES NOT WORK) 
+Turns out zenity has hardcoded paths that need fixing lol
+
 # Zenity-GTK3-AppImage
 Unofficial AppImage of Zenity [GTK3 Version](https://gitlab.gnome.org/GNOME/zenity/-/tree/zenity-3-44?ref_type=heads)
 
