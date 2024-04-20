@@ -1,12 +1,7 @@
-# WIP
-Turns out zenity has hardcoded paths that need fixing lol
-
-I'm using this version isntead that has the patches, however it is abandoned: https://github.com/aferrero2707/zenity (I will try to put those patches in zenity 3.44, hopefully it works)
-
-Using the older version the AppImage works now.
-
 # Zenity-GTK3-AppImage
-Unofficial AppImage of Zenity [GTK3 Version](https://gitlab.gnome.org/GNOME/zenity/-/tree/zenity-3-44?ref_type=heads) (It is using the other link in the meantime)
+Unofficial AppImage of Zenity [GTK3 Version](https://gitlab.gnome.org/GNOME/zenity/-/tree/zenity-3-44?ref_type=heads)
+
+It uses this fork for building since it needs some [oatches](https://github.com/Samueru-sama/zenity)
 
 Useful for GTK3 users Xfce4 and WM users as the newer Zenity package uses GTK4 instead of GTK3 and as result you may run into this whole mess in trying to patch it to use the right theme: ![Gnome moment](https://github.com/Samueru-sama/Zenity-GTK3-AppImage/assets/36420837/3e5586a2-f21d-4e96-89c9-3becc1642fdc)
 
