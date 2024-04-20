@@ -1,27 +1,24 @@
 #!/bin/sh
 
 APP=zenity-gtk3
-#SITE="https://gitlab.gnome.org/GNOME/zenity/-/archive/zenity-3-44/zenity-zenity-3-44.tar.gz"
+SITE="https://github.com/Samueru-sama/zenity.git"
 
 # CREATE DIRECTORIES
 if [ -z "$APP" ]; then exit 1; fi
-mkdir -p "./$APP" "./$APP/$APP.AppDir/usr/bin" "./$APP/$APP.AppDir/usr/share/zenity" && cd "./$APP" || exit 1
+mkdir -p ./"$APP" ./"$APP/$APP".AppDir/usr/bin ./"$APP/$APP".AppDir/usr/share/zenity && cd ./"$APP" || exit 1
 
 # DOWNLOAD AND BUILD ZENITY
-#wget $SITE && tar fx ./*tar*
-git clone https://github.com/aferrero2707/zenity.git && cd ./zenity && ./autogen.sh && make || exit 1
+git clone "$SITE" && cd ./zenity && meson --prefix /usr . build && meson compile -C build || exit 1
 
-# PREPARE APPIMAGE
-cd ..
-mv ./zenity/src/zenity "./$APP.AppDir/usr/bin"
-mv ./zenity/src/zenity.ui "./$APP.AppDir/usr/share/zenity" && mv ./zenity/data/* "./$APP.AppDir/usr/share/zenity"
+# PREPARE APPIMAGE FILES
+cd .. && mv ./zenity/build/src/zenity ./"$APP".AppDir/usr/bin && mv ./zenity/src/zenity.ui ./"$APP".AppDir/usr/share/zenity && mv ./zenity/data/* ./"$APP".AppDir/usr/share/zenity || exit 1
 
 # AppRun
 cd "./$APP.AppDir" || exit 1
 cat >> ./AppRun << 'EOF'
 #!/bin/sh
 CURRENTDIR="$(readlink -f "$(dirname "$0")")"
-export XDG_DATA_DIRS="${CURRENTDIR}/usr/share/:${XDG_DATA_DIRS}"
+export XDG_DATA_DIRS="$CURRENTDIR/usr/share/:$XDG_DATA_DIRS"
 export ZENITY_DATA_DIR="$CURRENTDIR/usr/share/zenity"
 exec "$CURRENTDIR/usr/bin/zenity" "$@"
 EOF
@@ -42,8 +39,7 @@ StartupNotify=true
 Categories=Utility;
 X-GNOME-UsesNotifications=true
 EOF
-cp ./usr/share/zenity/zenity.png ./ || exit 1
-ln -s ./zenity.png ./.DirIcon
+cp ./usr/share/zenity/zenity.png ./ && ln -s ./zenity.png ./.DirIcon || exit 1
 
 # MAKE APPIMAGE
 cd ..
