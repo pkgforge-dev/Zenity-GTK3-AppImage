@@ -1,21 +1,20 @@
 #!/bin/sh
 
 APP=zenity-gtk3
-SITE="https://gitlab.gnome.org/GNOME/zenity/-/archive/zenity-3-44/zenity-zenity-3-44.tar.gz"
+#SITE="https://gitlab.gnome.org/GNOME/zenity/-/archive/zenity-3-44/zenity-zenity-3-44.tar.gz"
 
 # CREATE DIRECTORIES
 if [ -z "$APP" ]; then exit 1; fi
-mkdir -p "./$APP/tmp" "./$APP/zenitysrc" "./$APP/$APP.AppDir/usr/bin" "./$APP/$APP.AppDir/usr/share/zenity" && cd "./$APP/tmp" || exit 1
+mkdir -p "./$APP" "./$APP/$APP.AppDir/usr/bin" "./$APP/$APP.AppDir/usr/share/zenity" && cd "./$APP" || exit 1
 
 # DOWNLOAD AND BUILD ZENITY
-wget $SITE && tar fx ./*tar*
-cd .. && mv --backup=t ./tmp/*/* ./zenitysrc
-cd ./zenitysrc && meson --prefix /usr . build && meson compile -C build || exit 1
+#wget $SITE && tar fx ./*tar*
+git clone https://github.com/aferrero2707/zenity.git && cd ./zenity && ./autogen.sh && make || exit 1
 
 # PREPARE APPIMAGE
 cd ..
-mv ./zenitysrc/build/src/zenity "./"$APP".AppDir/usr/bin"
-mv ./zenitysrc/data/* "./$APP.AppDir/usr/share/zenity" && mv ./zenitysrc/src/zenity.ui "./$APP.AppDir/usr/share/zenity"
+mv ./zenity/src/zenity "./$APP.AppDir/usr/bin"
+mv ./zenity/src/zenity.ui "./$APP.AppDir/usr/share/zenity" && mv ./zenity/data/* "./$APP.AppDir/usr/share/zenity"
 
 # AppRun
 cd "./$APP.AppDir" || exit 1
