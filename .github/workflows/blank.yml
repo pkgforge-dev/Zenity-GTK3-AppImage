@@ -17,9 +17,9 @@ jobs:
     - name: build
       run: |
         sudo apt update
-        sudo apt install libfuse2
+        sudo apt install libfuse2 ninja-build
         sudo apt install libgtk-3-dev itstool gettext python3-pip
-        pip3 install meson
+        sudo pip3 install meson
         wget https://raw.githubusercontent.com/Samueru-sama/Zenity-GTK3-AppImage/main/zenity-gtk3-appimage.sh
         chmod a+x ./zenity-gtk3-appimage.sh
         ./zenity-gtk3-appimage.sh
