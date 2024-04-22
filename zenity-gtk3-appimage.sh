@@ -23,7 +23,8 @@ export ZENITY_DATA_DIR="$CURRENTDIR/share/zenity"
 exec "$CURRENTDIR/bin/zenity" "$@"
 EOF
 chmod a+x ./AppRun
-APPVERSION=$(./AppRun --version)
+#APPVERSION=$(./AppRun --version) # This fails here because zenity needs a display to give you the version lol
+APPVERSION=3.44
 if [ -z "$APPVERSION" ]; then echo "Failed to get version from zenity"; exit 1; fi
 
 # DESKTOP & ICON
