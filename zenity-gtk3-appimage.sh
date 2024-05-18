@@ -10,7 +10,10 @@ mkdir -p ./"$APP/$APPDIR" && cd ./"$APP/$APPDIR" || exit 1
 
 # DOWNLOAD AND MAKE ZENITY
 CURRENTDIR="$(readlink -f "$(dirname "$0")")" # DO NOT MOVE THIS
-git clone "$SITE" && cd ./zenity && meson --prefix "$CURRENTDIR" . build && meson compile -C build && meson install -C build # NORMAL ERROR HERE, HAVEN'T FIXED
+CFLAGS="-static -O3" 
+LDFLAGS="-static"
+git clone "$SITE" && cd ./zenity && meson setup build -Dprefix="$CURRENTDIR" -Ddefault_library=static \
+&& ninja -C build && ninja -C build install # NORMAL ERROR HERE, HAVEN'T FIXED
 cd .. && find ./bin/* -type f -executable -exec sed -i -e "s|/usr|././|g" {} \; && echo "binary patched" && rm -rf ./zenity # Patch binary
 
 # AppRun
