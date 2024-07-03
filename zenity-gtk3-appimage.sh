@@ -21,7 +21,7 @@ cat >> ./AppRun << 'EOF'
 #!/bin/sh
 CURRENTDIR="$(readlink -f "$(dirname "$0")")"
 export PATH="$CURRENTDIR/bin:$PATH"
-export XDG_DATA_DIRS="$CURRENTDIR/share:$XDG_DATA_DIRS"
+export XDG_DATA_DIRS="$CURRENTDIR/share:$XDG_DATA_DIRS:/usr/local/share/:/usr/share"
 export ZENITY_DATA_DIR="$CURRENTDIR/share/zenity"
 exec "$CURRENTDIR/bin/zenity" "$@"
 EOF
