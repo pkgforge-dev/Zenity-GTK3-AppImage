@@ -56,6 +56,7 @@ Icon=zenity' > ./zenity.desktop
 touch ./zenity.png
 
 export VERSION="$(xvfb-run -a -- ./AppRun --version)"
+echo "$VERSION" > ~/version
 
 # MAKE APPIAMGE WITH FUSE3 COMPATIBLE APPIMAGETOOL
 cd ..
