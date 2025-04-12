@@ -35,7 +35,8 @@ jobs:
           pango-dev \
           patchelf \
           strace \
-          wget
+          wget \
+          xvfb-run
 
         chmod +x ./*-appimage.sh && ./*-appimage.sh
         mkdir dist
