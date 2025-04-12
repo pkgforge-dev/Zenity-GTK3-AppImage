@@ -1,12 +1,22 @@
 # Zenity-GTK3-AppImage
-Unofficial AppImage of Zenity [GTK3 Version](https://gitlab.gnome.org/GNOME/zenity/-/tree/zenity-3-44?ref_type=heads)
+Unofficial AppImage of Zenity **GTK3 Version**
 
-It uses this fork for building since it needs some [patches](https://github.com/Samueru-sama/zenity)
+**raison d'être:** 
 
-Useful for GTK3 users Xfce4 and WM users as the newer Zenity package uses GTK4 instead of GTK3 and as result you may run into this whole mess in trying to patch it to use the right theme: ![Gnome moment](https://github.com/Samueru-sama/Zenity-GTK3-AppImage/assets/36420837/3e5586a2-f21d-4e96-89c9-3becc1642fdc)
+![Gnome moment](https://github.com/Samueru-sama/Zenity-GTK3-AppImage/assets/36420837/3e5586a2-f21d-4e96-89c9-3becc1642fdc)
 
-You can also run the `zenity-gtk3-appimage.sh` script in your machine to make the AppImage, provided it has all the dependencies needed to build Zenity (meson, gtk3, etc). 
+---------------------------------------------------------------
 
-It is possible that these appimages may fail to work with appimagelauncher, since appimagelauncher is pretty much dead I recommend this alternative: https://github.com/ivan-hc/AM
+AppImage made using [sharun](https://github.com/VHSgunzo/sharun), which makes it extremely easy to turn any binary into a portable package without using containers or similar tricks.
 
-This appimage works without fuse2 as it can use fuse3 instead.
+**This AppImage bundles everything and should work on any linux distro, even on musl based ones.**
+
+It is possible that this appimage may fail to work with appimagelauncher, I recommend these alternatives instead: 
+
+* [AM](https://github.com/ivan-hc/AM) `am -i zenity` or `appman -i zenity`
+
+* [dbin](https://github.com/xplshn/dbin) `dbin install zenity.appimage`
+
+* [soar](https://github.com/pkgforge/soar) `soar install zenity`
+
+This appimage works without fuse2 as it can use fuse3 instead, it can also work without fuse at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
