@@ -1,60 +1,74 @@
 #!/bin/sh
 
-APP=Zenity-gtk3
-APPDIR=Zenity.AppDir
-SITE="https://github.com/Samueru-sama/zenity.git"
+set -eu
 
-# CREATE DIRECTORIES
-if [ -z "$APP" ]; then exit 1; fi
-mkdir -p ./"$APP/$APPDIR" && cd ./"$APP/$APPDIR" || exit 1
+export ARCH="$(uname -m)"
+export APPIMAGE_EXTRACT_AND_RUN=1
 
-# DOWNLOAD AND MAKE ZENITY
-CURRENTDIR="$(readlink -f "$(dirname "$0")")" # DO NOT MOVE THIS
-CFLAGS="-static -O3" 
-LDFLAGS="-static"
-git clone "$SITE" && cd ./zenity && meson setup build -Dprefix="$CURRENTDIR" -Ddefault_library=static \
-&& ninja -C build && ninja -C build install # NORMAL ERROR HERE, HAVEN'T FIXED
-cd .. && find ./bin/* -type f -executable -exec sed -i -e "s|/usr|././|g" {} \; && echo "binary patched" && rm -rf ./zenity # Patch binary
+REPO="https://gitlab.gnome.org/GNOME/zenity.git"
+APPIMAGETOOL="https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-$ARCH.AppImage"
+UPINFO="gh-releases-zsync|$(echo $GITHUB_REPOSITORY | tr '/' '|')|latest|*$ARCH.AppImage.zsync"
+LIB4BIN="https://raw.githubusercontent.com/VHSgunzo/sharun/refs/heads/main/lib4bin"
 
-# AppRun
-cat >> ./AppRun << 'EOF'
-#!/bin/sh
-CURRENTDIR="$(readlink -f "$(dirname "$0")")"
-export PATH="$CURRENTDIR/bin:$PATH"
-export XDG_DATA_DIRS="$CURRENTDIR/share:$XDG_DATA_DIRS:/usr/local/share/:/usr/share"
-export ZENITY_DATA_DIR="$CURRENTDIR/share/zenity"
-exec "$CURRENTDIR/bin/zenity" "$@"
-EOF
-chmod a+x ./AppRun
-#APPVERSION=$(./AppRun --version) # This fails here because zenity needs a display to give you the version lol
-APPVERSION=3.44
-if [ -z "$APPVERSION" ]; then echo "Failed to get version from zenity"; exit 1; fi
+# Prepare AppDir
+mkdir -p ./AppDir
+cd ./AppDir
 
-# DESKTOP & ICON
-#DESKTOP="https://gitlab.gnome.org/GNOME/zenity/-/raw/master/data/org.gnome.Zenity.desktop.in?ref_type=heads"  #wget "$DESKTOP" -O ./$APP.desktop # appimagetool complains with this .desktop file
-cat >> ./$APP.desktop << 'EOF'
-[Desktop Entry]
+git clone "$REPO" ./zenity && (
+	cd ./zenity
+	git checkout "zenity-3-44"
+	meson setup build  --prefix=/usr
+	meson compile -C build
+	DESTDIR=../../ meson install --no-rebuild -C build
+)
+
+mv ./usr/share ./
+mv ./usr ./shared
+rm -rf ./zenity ./share/help
+
+# zenity is hardcoded to look for files in /usr/share
+# we will fix it with binary patching
+sed -i 's|/usr/share|././/share|g' ./shared/bin/zenity
+echo 'SHARUN_WORKING_DIR=${SHARUN_DIR}' > ./.env
+
+# bundle dependencies
+wget "$LIB4BIN" -O ./lib4bin
+chmod +x ./lib4bin
+xvfb-run -a -- ./lib4bin -p -v -s -k -e \
+	./shared/bin/zenity -- --question --text "English or Spanish?"
+./lib4bin -p -v -s -k \
+	/usr/lib/gdk-pixbuf-*/*/*/* \
+	/usr/lib/gio/modules/libgvfsdbus*
+
+ln ./sharun ./AppRun
+./sharun -g
+
+echo '[Desktop Entry]
 Name=Zenity
 Comment=Display dialog boxes from the command line
 Exec=zenity
-Icon=zenity
 Terminal=false
 Type=Application
 NoDisplay=true
 StartupNotify=true
-Categories=Utility;
-X-GNOME-UsesNotifications=true
-EOF
-cp ./share/zenity/zenity.png ./ && ln -s ./zenity.png ./.DirIcon || exit 1
+Categories=Utility
+Icon=zenity' > ./zenity.desktop
+touch ./zenity.png
 
-# MAKE APPIMAGE
+export VERSION="$(xvfb-run -a -- ./AppRun --version)"
+
+# MAKE APPIAMGE WITH FUSE3 COMPATIBLE APPIMAGETOOL
 cd ..
-APPIMAGETOOL=$(wget -q https://api.github.com/repos/probonopd/go-appimage/releases -O - | sed 's/"/ /g; s/ /\n/g' | grep -o 'https.*continuous.*tool.*86_64.*mage$')
-wget -q "$APPIMAGETOOL" -O ./appimagetool && chmod a+x ./appimagetool
+wget "$APPIMAGETOOL" -O ./appimagetool
+chmod +x ./appimagetool
+./appimagetool -n -u "$UPINFO" \
+	"$PWD"/AppDir "$PWD"/zenity-"$VERSION"-anylinux-"$ARCH".AppImage
 
-# Do the thing!
-ARCH=x86_64 VERSION="$APPVERSION" ./appimagetool -s ./"$APPDIR"
-ls ./*.AppImage || { echo "appimagetool failed to make the appimage"; exit 1; }
-if [ -z "$APP" ]; then exit 1; fi # Being extra safe lol
-mv ./*.AppImage .. && cd .. && rm -rf "./$APP"
+wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$ARCH"
+chmod +x ./pelf
+echo "Generating [dwfs]AppBundle...(Go runtime)"
+./pelf --add-appdir ./AppDir \
+	--appbundle-id="zenity-${VERSION}" \
+	--output-to "zenity-${VERSION}-anylinux-${ARCH}.sqfs.AppBundle"
+
 echo "All Done!"
