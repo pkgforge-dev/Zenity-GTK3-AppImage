@@ -40,7 +40,7 @@ xvfb-run -a -- ./lib4bin -p -v -s -k -e \
 	/usr/lib/gdk-pixbuf-*/*/*/* \
 	/usr/lib/gio/modules/libgvfsdbus*
 
-ln ./sharun ./AppRun
+ln -s ./bin/zenity ./AppRun
 ./sharun -g
 
 echo '[Desktop Entry]
