@@ -67,7 +67,7 @@ chmod +x ./appimagetool
 
 wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$ARCH"
 chmod +x ./pelf
-echo "Generating [dwfs]AppBundle..."(Go runtime)
+echo "Generating [dwfs]AppBundle..."
 UPINFO="gh-releases-zsync|$(echo $GITHUB_REPOSITORY | tr '/' '|')|latest|*$ARCH.dwfs.AppBundle.zsync"
 ./pelf --add-appdir ./AppDir \
 	--appimage-compat                         \
