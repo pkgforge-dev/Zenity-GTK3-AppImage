@@ -67,9 +67,13 @@ chmod +x ./appimagetool
 
 wget -qO ./pelf "https://github.com/xplshn/pelf/releases/latest/download/pelf_$ARCH"
 chmod +x ./pelf
-echo "Generating [dwfs]AppBundle...(Go runtime)"
+echo "Generating [dwfs]AppBundle..."(Go runtime)
+UPINFO="gh-releases-zsync|$(echo $GITHUB_REPOSITORY | tr '/' '|')|latest|*$ARCH.dwfs.AppBundle.zsync"
 ./pelf --add-appdir ./AppDir \
-	--appbundle-id="zenity-${VERSION}" \
-	--output-to "zenity-${VERSION}-anylinux-${ARCH}.sqfs.AppBundle"
+	--appimage-compat                         \
+	--add-updinfo "$UPINFO"                   \
+	--appbundle-id="zenity#github.com/$GITHUB_REPOSITORY:$VERSION@$(date +%d_%m_%Y)" \
+	--compression "-C zstd:level=22 -S26 -B8" \
+	--output-to "zenity-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
 
 echo "All Done!"
