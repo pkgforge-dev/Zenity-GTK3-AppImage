@@ -61,6 +61,7 @@ jobs:
        path: ~/version
     
   release:
+      if: ${{ github.ref_name == 'main' }}
       needs: [build]
       permissions: write-all
       runs-on: ubuntu-latest
@@ -69,6 +70,7 @@ jobs:
         - uses: actions/download-artifact@v4.3.0
           with:
             name: AppImage
+
         - uses: actions/download-artifact@v4.3.0
           with:
             name: version
@@ -76,7 +78,7 @@ jobs:
         - name: Read version and Get date
           run: |
             echo "VERSION=$(cat version)" >> "${GITHUB_ENV}"
-            echo "DATE=$(date +'%Y-%m-%d_%s')" >> "$GITHUB_ENV"
+            echo "DATE=$(date +'%Y-%m-%d_%s')" >> "${GITHUB_ENV}"
   
         - name: Release Artifacts
           uses: softprops/action-gh-release@v2.3.2
@@ -86,7 +88,6 @@ jobs:
             prerelease: false
             draft: false
             generate_release_notes: false
-            fail_on_unmatched_files: false
             make_latest: true
             files: |
               *.AppImage*
