@@ -82,7 +82,7 @@ jobs:
           uses: softprops/action-gh-release@v2.3.2
           with:
             name: "Zenity: ${{ env.VERSION }}"
-            tag_name: "${{ env.DATE }}-${{ env.VERSION }}"
+            tag_name: "${{ env.VERSION }}-${{ env.DATE }}"
             prerelease: false
             draft: false
             generate_release_notes: false
