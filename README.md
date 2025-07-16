@@ -1,5 +1,11 @@
-# Zenity-GTK3-AppImage
+# Zenity-GTK3-AppImage 🐧
+
+[![GitHub Downloads](https://img.shields.io/github/downloads/pkgforge-dev/Zenity-GTK3-AppImage/total?logo=github&label=GitHub%20Downloads)](https://github.com/pkgforge-dev/Zenity-GTK3-AppImage/releases/latest)
+[![CI Build Status](https://github.com//pkgforge-dev/Zenity-GTK3-AppImage/actions/workflows/blank.yml/badge.svg)](https://github.com/pkgforge-dev/Zenity-GTK3-AppImage/releases/latest)
+
 Unofficial AppImage of Zenity **GTK3 Version**
+
+* [Latest Stable Release](https://github.com/pkgforge-dev/Zenity-GTK3-AppImage/releases/latest)
 
 **raison d'être:** 
 
@@ -20,3 +26,6 @@ It is possible that this appimage may fail to work with appimagelauncher, I reco
 * [soar](https://github.com/pkgforge/soar) `soar install zenity`
 
 This appimage works without fuse2 as it can use fuse3 instead, it can also work without fuse at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
+
+More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/) 
+
