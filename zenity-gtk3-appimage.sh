@@ -14,7 +14,7 @@ git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity && (
 )
 
 # Prepare AppDir
-VERSION="$(xvfb-run -a -- "$(command -v zenity)" --version)"
+VERSION="$(awk -F":|'" '/version:/{print $3; exit}' ./zenity/meson.build)"
 [ -n "$VERSION" ] && echo "$VERSION" > ~/version
 
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
