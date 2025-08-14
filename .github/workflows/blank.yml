@@ -15,8 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: build
-      if: always()
+    - name: Get dependencies
       run: |
         apk add bash \
           build-base \
@@ -41,16 +40,9 @@ jobs:
         wget "https://github.com/probonopd/static-tools/releases/download/continuous/zsyncmake-$(uname -m)" -O /usr/bin/zsyncmake
         chmod +x /usr/bin/zsyncmake
 
-        chmod +x ./*-appimage.sh && ./*-appimage.sh
-        mkdir dist
-        mv *.AppImage* dist/
-        mv *.AppBundle* dist/
+    - name: Make AppImage
+      run: chmod +x ./*-appimage.sh && ./*-appimage.sh
 
-    - name: Check version file
-      run: |
-       cat ~/version
-       echo "APP_VERSION=$(cat ~/version)" >> "${GITHUB_ENV}"
-    
     - name: Upload artifact
       uses: actions/upload-artifact@v4.6.2
       with:
