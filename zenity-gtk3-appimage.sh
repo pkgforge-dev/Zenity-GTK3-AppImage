@@ -26,10 +26,14 @@ export DESKTOP=DUMMY
 export ICONs=DUMMY
 export PATH_MAPPING_RELATIVE=1 # zenity is hardcoded to look for files in /usr/share
 
-# MAKE APPIAMGE WITH URUNTIME
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
 ./quick-sharun /usr/bin/zenity -- --question --text "English or Spanish?"
+
+# MAKE APPIMAGE WITH URUNTIME
+wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
+chmod +x ./uruntime2appimage
+./uruntime2appimage
 
 
 # make appbundle
