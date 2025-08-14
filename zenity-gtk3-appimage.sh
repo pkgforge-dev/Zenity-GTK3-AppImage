@@ -10,11 +10,11 @@ git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity && (
 	git checkout "zenity-3-44"
 	meson setup build --prefix=/usr
 	meson compile -C build
-	DESTDIR=/usr meson install --no-rebuild -C build
+	meson install --no-rebuild -C build
 )
 
 # Prepare AppDir
-VERSION="$(xvfb-run -a -- "$(command -v zenity)" --version)"
+VERSION="$(awk -F":|'" '/version:/{print $3; exit}' ./zenity/meson.build)"
 [ -n "$VERSION" ] && echo "$VERSION" > ~/version
 
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
@@ -28,7 +28,7 @@ export PATH_MAPPING_RELATIVE=1 # zenity is hardcoded to look for files in /usr/s
 
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
-./quick-sharun /usr/bin/zenity -- --question --text "English or Spanish?"
+./quick-sharun /usr/bin/zenity
 
 # MAKE APPIMAGE WITH URUNTIME
 wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
@@ -48,5 +48,10 @@ UPINFO="$(echo "$UPINFO" | sed 's#.AppImage.zsync#*.AppBundle.zsync#g')"
 	--appbundle-id="zenity#github.com/$GITHUB_REPOSITORY:$VERSION@$(date +%d_%m_%Y)" \
 	--compression "-C zstd:level=22 -S26 -B8" \
 	--output-to "zenity-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
+zsyncmake -u ./*.AppBundle ./*.AppBundle
+
+mkdir -p ./dist
+mv -v ./*.AppImage*  ./dist
+mv -v ./*.AppBundle* ./dist
 
 echo "All Done!"
