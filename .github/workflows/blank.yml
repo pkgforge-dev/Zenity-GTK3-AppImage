@@ -42,6 +42,9 @@ jobs:
         wget "https://github.com/probonopd/static-tools/releases/download/continuous/zsyncmake-$(uname -m)" -O /usr/bin/zsyncmake
         chmod +x /usr/bin/zsyncmake
 
+        # do not let mesa be bundled, this is a gtk3 app
+        apk del mesa
+
         chmod +x ./*-appimage.sh && ./*-appimage.sh
         mkdir dist
         mv *.AppImage* dist/
