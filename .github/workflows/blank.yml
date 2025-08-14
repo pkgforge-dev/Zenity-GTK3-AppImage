@@ -43,7 +43,7 @@ jobs:
         chmod +x /usr/bin/zsyncmake
 
         # do not let mesa be bundled, this is a gtk3 app
-        apk del mesa
+        apk del --force mesa
 
         chmod +x ./*-appimage.sh && ./*-appimage.sh
         mkdir dist
