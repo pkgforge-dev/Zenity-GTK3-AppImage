@@ -48,5 +48,10 @@ UPINFO="$(echo "$UPINFO" | sed 's#.AppImage.zsync#*.AppBundle.zsync#g')"
 	--appbundle-id="zenity#github.com/$GITHUB_REPOSITORY:$VERSION@$(date +%d_%m_%Y)" \
 	--compression "-C zstd:level=22 -S26 -B8" \
 	--output-to "zenity-${VERSION}-anylinux-${ARCH}.dwfs.AppBundle"
+zsyncmake ./*.AppBundle -u ./*.AppBundle
+
+mkdir -p ./dist
+mv -v ./*.AppImage*  ./dist
+mv -v ./*.AppBundle* ./dist
 
 echo "All Done!"
