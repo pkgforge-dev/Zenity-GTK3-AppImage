@@ -43,7 +43,8 @@ jobs:
         chmod +x /usr/bin/zsyncmake
 
         # do not let mesa be bundled, this is a gtk3 app
-        apk del --force mesa
+        # the alpine package maanger does not have an option to force the removal of a package...
+        sudo rm -rf /usr/lib/libgallium* /usr/share/glvnd
 
         chmod +x ./*-appimage.sh && ./*-appimage.sh
         mkdir dist
