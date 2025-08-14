@@ -10,7 +10,7 @@ git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity && (
 	git checkout "zenity-3-44"
 	meson setup build --prefix=/usr
 	meson compile -C build
-	DESTDIR=/usr meson install --no-rebuild -C build
+	meson install --no-rebuild -C build
 )
 
 # Prepare AppDir
