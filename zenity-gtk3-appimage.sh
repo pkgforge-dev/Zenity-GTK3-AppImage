@@ -4,19 +4,7 @@ set -eux
 
 ARCH="$(uname -m)"
 
-# Build zenity
-git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity && (
-	cd ./zenity
-	git checkout "zenity-3-44"
-	meson setup build --prefix=/usr
-	meson compile -C build
-	meson install --no-rebuild -C build
-)
-
-# Prepare AppDir
-VERSION="$(awk -F":|'" '/version:/{print $3; exit}' ./zenity/meson.build)"
-[ -n "$VERSION" ] && echo "$VERSION" > ~/version
-
+VERSION="$(cat ~/version)"
 URUNTIME="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/uruntime2appimage.sh"
 SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
 
@@ -34,7 +22,6 @@ chmod +x ./quick-sharun
 wget --retry-connrefused --tries=30 "$URUNTIME" -O ./uruntime2appimage
 chmod +x ./uruntime2appimage
 ./uruntime2appimage
-
 
 # make appbundle
 wget --retry-connrefused --tries=30 \
