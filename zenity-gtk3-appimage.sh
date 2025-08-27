@@ -12,6 +12,7 @@ export OUTNAME=zenity-"$VERSION"-anylinux-"$ARCH".AppImage
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export DESKTOP=DUMMY
 export ICONs=DUMMY
+export URUNTIME_PRELOAD=1
 
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
