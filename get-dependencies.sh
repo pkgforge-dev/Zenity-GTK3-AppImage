@@ -23,6 +23,9 @@ wget --retry-connrefused --tries=30 "$EXTRA_PACKAGES" -O ./get-debloated-pkgs.sh
 chmod +x ./get-debloated-pkgs.sh
 ./get-debloated-pkgs.sh gtk3-mini libxml2-mini
 
+# This app does not need mesa to work
+pacman -Rsndd --noconfirm mesa
+
 # Build zenity
 git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity 
 cd ./zenity
