@@ -12,7 +12,6 @@ export OUTNAME=zenity-"$VERSION"-anylinux-"$ARCH".AppImage
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export DESKTOP=DUMMY
 export ICONs=DUMMY
-export PATH_MAPPING_RELATIVE=1 # zenity is hardcoded to look for files in /usr/share
 
 wget --retry-connrefused --tries=30 "$SHARUN" -O ./quick-sharun
 chmod +x ./quick-sharun
