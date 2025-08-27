@@ -9,6 +9,7 @@ pacman -Syu --noconfirm    \
 	base-devel        \
 	curl              \
 	git               \
+	itstool           \
 	libxtst           \
 	meson             \
 	pulseaudio        \
