@@ -26,7 +26,7 @@ chmod +x ./get-debloated-pkgs.sh
 git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity 
 cd ./zenity
 git checkout "zenity-3-44"
-meson setup build --prefix=/usr -Dmanpage=false
+meson setup build --prefix=/usr
 meson compile -C build
 meson install --no-rebuild -C build
 awk -F":|'" '/version:/{print $3; exit}' ./meson.build > ~/version
