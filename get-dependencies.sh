@@ -1,27 +1,21 @@
 #!/bin/sh
 
-set -eux
-EXTRA_PACKAGES="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/get-debloated-pkgs.sh"
+set -eu
+ARCH=$(uname -m)
 
 echo "Installing build dependencies..."
 echo "---------------------------------------------------------------"
-pacman -Syu --noconfirm    \
+pacman -Syu --noconfirm \
 	base-devel        \
-	curl              \
-	git               \
 	itstool           \
 	libxtst           \
 	meson             \
 	pulseaudio        \
-	wget              \
-	xorg-server-xvfb  \
 	zsync
 
 echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
-wget --retry-connrefused --tries=30 "$EXTRA_PACKAGES" -O ./get-debloated-pkgs.sh
-chmod +x ./get-debloated-pkgs.sh
-./get-debloated-pkgs.sh gtk3-mini libxml2-mini gdk-pixbuf2-mini librsvg-mini
+get-debloated-pkgs gtk3-mini libxml2-mini gdk-pixbuf2-mini librsvg-mini
 
 # This app does not need mesa to work
 pacman -Rsndd --noconfirm mesa
