@@ -15,6 +15,8 @@
 | :---: | :---: |
 | [Click here](https://github.com/pkgforge-dev/Zenity-GTK3-AppImage/releases/latest) | [Click here](https://gitlab.gnome.org/GNOME/zenity/-/tree/zenity-3-44?ref_type=heads) |
 
+# Checkout [zenity-rs](https://github.com/QaidVoid/zenity-rs) much better and smaller alternative
+
 </div>
 
 ---
