@@ -17,9 +17,6 @@ echo "Installing debloated packages..."
 echo "---------------------------------------------------------------"
 get-debloated-pkgs gtk3-mini libxml2-mini gdk-pixbuf2-mini librsvg-mini
 
-# This app does not need mesa to work
-pacman -Rsndd --noconfirm mesa
-
 # Build zenity
 git clone "https://gitlab.gnome.org/GNOME/zenity.git" ./zenity 
 cd ./zenity
