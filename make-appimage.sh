@@ -6,8 +6,9 @@ ARCH="$(uname -m)"
 export ARCH
 export OUTPATH=./dist
 export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
-export DESKTOP=DUMMY
 export ICON=DUMMY
+export DESKTOP=DUMMY
+export MAIN_BIN=zenity
 export URUNTIME_PRELOAD=1
 export ALWAYS_SOFTWARE=1
 
